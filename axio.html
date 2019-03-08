@@ -4,7 +4,7 @@
 table {
   font-family: arial, sans-serif;
   border-collapse: collapse;
-  width: 100%;
+  width: 60%;
 }
 
 td, th {
@@ -50,13 +50,30 @@ tr:nth-child(even) {
     }
 
     function createTable(tableData) {
+        let total=0;
+        const headArr=['Account','QTY','Request Date'];
+       
         var table = document.createElement('table');
         var tableBody = document.createElement('tbody');
+        var tablehr=document.createElement('tr');
+        headArr.forEach(function(em){
+             var tableth=document.createElement('td');
+        tableth.appendChild(document.createTextNode(em));
+        tablehr.appendChild(tableth);
+
+        });
+       
+        tableBody.appendChild(tablehr);
 
         tableData.forEach(function(rowData) {
             var row = document.createElement('tr');
             let obValue = Object.values(rowData);
             obValue[2] = timeConverter(obValue[2]);
+            obValue[1]=parseInt(obValue[1]);
+                        total+=obValue[1];
+
+
+            obValue[1]=obValue[1].toLocaleString('en');
 
             obValue.forEach(function(cellData) {
                 var cell = document.createElement('td');
@@ -67,10 +84,22 @@ tr:nth-child(even) {
 
             tableBody.appendChild(row);
         });
+        total=total.toLocaleString('en');
+                let endArr=['Total',total,''];
+         let endtablerow=document.createElement('tr')
+         endArr.forEach(function(em){
 
+             var endtabletd=document.createElement('td');
+        endtabletd.appendChild(document.createTextNode(em));
+        endtablerow.appendChild(endtabletd);
+
+        });
+   
+        tableBody.appendChild(endtablerow);
 
         table.appendChild(tableBody);
         document.body.appendChild(table);
+        console.log(endArr);
 
     }
 
