@@ -1,22 +1,117 @@
 <html>
+
 <head>
     <style>
-table {
-  font-family: arial, sans-serif;
-  border-collapse: collapse;
-  width: 60%;
-}
-
-td, th {
-  border: 1px solid #dddddd;
-  text-align: left;
-  padding: 8px;
-}
-
-tr:nth-child(even) {
-  background-color: #dddddd;
-}
-</style>
+        body {
+            background-color: #FFFFFF;
+            font-family: "Roboto", helvetica, arial, sans-serif;
+            font-size: 16px;
+            font-weight: 400;
+            text-rendering: optimizeLegibility;
+        }
+        
+        table {
+            background: white;
+            border-radius: 3px;
+            border-collapse: collapse;
+            height: 320px;
+            margin: auto;
+            max-width: 600px;
+            padding: 5px;
+            width: 100%;
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+            animation: float 5s infinite;
+        }
+        
+        th {
+            color: #D5DDE5;
+            ;
+            background: #1b1e24;
+            border-right: 1px solid #343a45;
+            border-left: 1px solid #343a45;
+            font-size: 16px;
+            font-weight: 100;
+            padding: 8px;
+            text-align: left;
+            text-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+            vertical-align: middle;
+        }
+        
+        tr {
+            border-top: 1px solid #C1C3D1;
+            border-bottom: 1px solid #C1C3D1;
+            color: #666B85;
+            font-size: 13px;
+            font-weight: normal;
+            text-shadow: 0 1px 1px rgba(256, 256, 256, 0.1);
+        }
+        
+        tr:hover td {
+            background: #4E5066;
+            color: #FFFFFF;
+            border-top: 1px solid #22262e;
+        }
+        
+        tr:first-child {
+            border-top: none;
+        }
+        
+        tr:last-child {
+            border-bottom: none;
+        }
+        
+        tr:nth-child(odd) td {
+            background: #EBEBEB;
+        }
+        
+        tr:nth-child(odd):hover td {
+            background: #4E5066;
+        }
+        
+        tr:last-child td:first-child {
+            border-bottom-left-radius: 3px;
+        }
+        
+        tr:last-child td:last-child {
+            border-bottom-right-radius: 3px;
+        }
+        
+        td {
+            background: #FFFFFF;
+            padding: 5px;
+            text-align: left;
+            vertical-align: middle;
+            font-weight: 300;
+            font-size: 18px;
+            text-shadow: -1px -1px 1px rgba(0, 0, 0, 0.1);
+            border-right: 1px solid #C1C3D1;
+            border-left: 1px solid #C1C3D1;
+        }
+        
+        th.text-left {
+            text-align: left;
+        }
+        
+        th.text-center {
+            text-align: center;
+        }
+        
+        th.text-right {
+            text-align: right;
+        }
+        
+        td.text-left {
+            text-align: left;
+        }
+        
+        td.text-center {
+            text-align: center;
+        }
+        
+        td.text-right {
+            text-align: right;
+        }
+    </style>
 </head>
 
 <body></body>
@@ -50,30 +145,30 @@ tr:nth-child(even) {
     }
 
     function createTable(tableData) {
-        let total=0;
-        const headArr=['Account','QTY','Request Date'];
-       
-        var table = document.createElement('table');
-        var tableBody = document.createElement('tbody');
-        var tablehr=document.createElement('tr');
-        headArr.forEach(function(em){
-             var tableth=document.createElement('td');
-        tableth.appendChild(document.createTextNode(em));
-        tablehr.appendChild(tableth);
+        let total = 0;
+        const headArr = ['Account', 'QTY', 'Request Date'];
+
+        let table = document.createElement('table');
+        let tableBody = document.createElement('tbody');
+        let tablehr = document.createElement('tr');
+        headArr.forEach(function(em) {
+            let tableth = document.createElement('th');
+            tableth.appendChild(document.createTextNode(em));
+            tablehr.appendChild(tableth);
 
         });
-       
+
         tableBody.appendChild(tablehr);
 
         tableData.forEach(function(rowData) {
-            var row = document.createElement('tr');
+            let row = document.createElement('tr');
             let obValue = Object.values(rowData);
             obValue[2] = timeConverter(obValue[2]);
-            obValue[1]=parseInt(obValue[1]);
-                        total+=obValue[1];
+            obValue[1] = parseInt(obValue[1]);
+            total += obValue[1];
 
 
-            obValue[1]=obValue[1].toLocaleString('en');
+            obValue[1] = obValue[1].toLocaleString('en');
 
             obValue.forEach(function(cellData) {
                 var cell = document.createElement('td');
@@ -84,17 +179,17 @@ tr:nth-child(even) {
 
             tableBody.appendChild(row);
         });
-        total=total.toLocaleString('en');
-                let endArr=['Total',total,''];
-         let endtablerow=document.createElement('tr')
-         endArr.forEach(function(em){
+        total = total.toLocaleString('en');
+        let endArr = ['Total', total, ''];
+        let endtablerow = document.createElement('tr')
+        endArr.forEach(function(em) {
 
-             var endtabletd=document.createElement('td');
-        endtabletd.appendChild(document.createTextNode(em));
-        endtablerow.appendChild(endtabletd);
+            let endtabletd = document.createElement('th');
+            endtabletd.appendChild(document.createTextNode(em));
+            endtablerow.appendChild(endtabletd);
 
         });
-   
+
         tableBody.appendChild(endtablerow);
 
         table.appendChild(tableBody);
@@ -118,10 +213,10 @@ tr:nth-child(even) {
 
         let raw = await axios.post(url, data);
         let arr = raw.data.rows;
-        arr.forEach(function(em){
-           em.asset=em.asset.slice(0,em.asset.length-5);
+        arr.forEach(function(em) {
+            em.asset = em.asset.slice(0, em.asset.length - 5);
         });
-        arr=arr.sort((a,b)=>b.asset-a.asset);
+        arr = arr.sort((a, b) => b.asset - a.asset);
         createTable(arr);
         console.log(arr);
         //document.getElementById("output").innerHTML = arr[0].user;
